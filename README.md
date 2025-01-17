@@ -7,7 +7,9 @@ Running the image in a cluster as part of a DaemonSet installs the GPU driver on
 
 To build the image for NVIDIA driver version `535.86.10` on Garden Linux `934.11` for `amd64`-based CPUs:
 ```bash
-docker build . --platform=linux/amd64 --build-arg TARGET_ARCH=amd64 --build-arg DRIVER_VERSION=535.86.10 --build-arg GARDENLINUX_VERSION=934.11
+docker build . --platform=linux/amd64 --build-arg TARGET_ARCH=amd64 --build-arg DRIVER_VERSION=535.104.05 --build-arg GARDENLINUX_VERSION=1592.4
+
+Nvidia 560.35.03 Gardenlinux 1592.1
 ```
 If you need to build for a baremetal node (as opposed to a cloud VM) then add `--build-arg KERNEL_TYPE=baremetal` 
 to the above command.
