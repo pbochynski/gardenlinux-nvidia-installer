@@ -14,12 +14,14 @@ to the above command.
 
 ## Deploying nvidia-installer with Helm
 
-First build the image as described above, and then push it to your Docker registry.
+First build the image as described above, and then push it to your Docker registry. 
+Create an imagePullSecret in the `kube-system` namespace to allow the DaemonSets to pull the image.
 
-Next, edit the file `todo-values.yaml` in the `helm` folder to specify the location of the Docker image and the
-values of the NVIDIA driver version and Garden Linux version. The Garden Linux version is used to tell the 
-DaemonSet which nodes to target - the sample `nodeAffinity` values assume that your GPU nodes have a `gpu` label, 
-and also an `os-version` label which is set to the Garden Linux version.
+```bash
+kubectl create secret docker-registry ghcr-login-secret --docker-server=https://ghcr.io --docker-username="yourusername" --docker-password=$GH_PAT -n kube-system
+```
+
+Next, edit the file `todo-values.yaml` in the `helm` folder to specify the location of the Docker image and the values of the NVIDIA driver version and Garden Linux version. The sample `nodeAffinity` values assume that your GPU nodes have a `node.kubernetes.io/instance-type` label with the value from this list: "g6.xlarge", "g5.xlarge"
 
 Now you can deploy the DaemonSets for the NVIDIA Driver installer and the NVIDIA Device Plugin along with the related
 imagePullSecret with the following command:
