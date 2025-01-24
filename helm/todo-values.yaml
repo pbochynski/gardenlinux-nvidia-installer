@@ -7,7 +7,7 @@
 # imagePullSecrets:
 # - name: myRegistryKeySecretName
 imagePullSecrets:
-- name: myRegistryKeySecretName
+- name: ghcr-login-secret
 
 # Configure a secret that should be created and then used for pulling images
 imagePullSecret:
@@ -21,21 +21,20 @@ nodeAffinity:
   requiredDuringSchedulingIgnoredDuringExecution:
     nodeSelectorTerms:
     - matchExpressions:
-      - key: gpu
-        operator: Exists
-      - key: os-version
+      - key: node.kubernetes.io/instance-type
         operator: In
-        # TODO: Edit <gardenlinux-version>
-        values: ["<gardenlinux-version>"]
+        values: ["g6.xlarge", "g5.xlarge"]
 
 nvidiaInstaller:
   # TODO: set your registry host/path if using a non-"docker.io" registry, otherwise leave empty
-  imageRegistry: "registry.example.com/project"
+  imageRegistry: "ghcr.io/pbochynski"
   # TODO: Set to the name of the image in the Docker registry
-  installerImage: nvidia-installer-<gardenlinux-version>-<driver-version>
+  installerImage: gardenlinux-nvidia-installer
   # TODO: Edit image tag
-  installerTag: latest
+  installerTag: 560.35.03
 
 nvidiaDevicePlugin:
   # TODO: Edit <driver-version>
-  nvidiaDriverVersion: <driver-version>
+  nvidiaDriverVersion: 560.35.03
+
+debug: true
